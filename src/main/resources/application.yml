@@ -1,0 +1,60 @@
+---
+micronaut:
+  application:
+    name: template
+
+---
+micronaut:
+  security:
+    enabled: false
+    endpoints:
+      login:
+        enabled: false
+      oauth:
+        enabled: false
+    token:
+      jwt:
+        enabled: false
+        signatures:
+          secret:
+            generator:
+              secret: "${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"
+
+---
+micronaut:
+  io:
+    watch:
+      paths: src/main
+      restart: true
+---
+tracing:
+  jaeger:
+    enabled: true
+    sampler:
+      probability: 0.1
+
+---
+cassandra:
+  default:
+    clusterName: "myCluster"
+    contactPoint: "localhost"
+    port: 9042
+    maxSchemaAgreementWaitSeconds: 20
+    ssl: true
+
+---
+micronaut:
+  metrics:
+    enabled: true
+    export:
+      prometheus:
+        enabled: true
+        step: PT1M
+        descriptions: true
+
+---
+datasources.default: {}
+---
+circuitbreaker:
+  names:
+    - test
